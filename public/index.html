@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PETRO-FLOW ANALYTICS v5.1 | Platform Delta-9 Digital-Twin</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;600;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- =====================================
+             TOP NAVIGATION BAR (Matching Image 2)
+        ====================================== -->
+        <header class="main-topbar">
+            <div class="topbar-left">
+                <!-- Hamburger menu -->
+                <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle navigation">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <!-- Brand (Image 2 style) -->
+                <div class="petro-brand" id="brandHomeLink" title="Go to Dashboard">
+                    <div class="petro-icon">
+                        <svg viewBox="0 0 24 24" fill="none" class="brand-flame-icon">
+                            <path d="M12 2.5C12 2.5 6 9.5 6 14.5C6 17.8137 8.68629 20.5 12 20.5C15.3137 20.5 18 17.8137 18 14.5C18 9.5 12 2.5 12 2.5Z" fill="url(#brandGrad)" stroke="#00f2fe" stroke-width="1.5"/>
+                            <path d="M12 7C12 7 8.5 11.5 8.5 14.5C8.5 16.433 10.067 18 12 18C13.933 18 15.5 16.433 15.5 14.5C15.5 11.5 12 7 12 7Z" fill="#00f2fe" fill-opacity="0.3"/>
+                            <defs>
+                                <linearGradient id="brandGrad" x1="12" y1="2.5" x2="12" y2="20.5" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#00f2fe"/>
+                                    <stop offset="1" stop-color="#0284c7"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="brand-text">
+                        <span class="brand-title">PETRO-FLOW</span>
+                        <span class="brand-sub">ANALYTICS <span class="brand-version">v5.1</span></span>
+                    </div>
+                </div>
+
+                <!-- Top Center Navigation Tabs (Image 2 style) -->
+                <nav class="top-nav-tabs">
+                    <button class="top-tab active" data-page="dashboard" id="tabSystemStatus">System Status</button>
+                    <button class="top-tab" data-page="wells" id="tabWells">Wells</button>
+                    <button class="top-tab" data-page="production" id="tabProduction">Production</button>
+                    <button class="top-tab" data-page="scada" id="tabSCADA">SCADA</button>
+                    <button class="top-tab" data-page="reports" id="tabReports">Reports</button>
+                </nav>
+            </div>
+
+            <div class="topbar-right">
+                <!-- WIDS Badge (Clickable Well Integrity Diagnostic System) -->
+                <button class="wids-badge" id="widsBadgeBtn" title="Inspect Well Integrity Diagnostic System (WIDS)">
+                    <span class="wids-dot"></span>
+                    <span class="wids-text">⊙ WIDS</span>
+                </button>
+
+                <!-- UTC Live Clock (Image 2 style: Oct 26, 2023, 14:32:01 UTC) -->
+                <div class="utc-clock" id="systemTime">
+                    Oct 26, 2023, 14:32:01 UTC
+                </div>
+
+                <!-- AI Quick Trigger -->
+                <button class="top-ai-btn" id="aiButton" title="Ask PETRO-AI">
+                    <span class="ai-spark">✦</span> Ask PETRO-AI
+                </button>
+            </div>
+        </header>
+
+        <!-- =====================================
+             APPLICATION BODY (Sidebar + Views)
+        ====================================== -->
+        <div class="app-body">
+
+            <!-- SIDEBAR (Matching Image 2) -->
+            <aside class="sidebar" id="sidebar">
+                <nav class="navigation">
+                    <button class="nav-item active" data-page="dashboard" title="Dashboard">
+                        <span class="nav-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                        </span>
+                        <span class="nav-text">DASHBOARD</span>
+                    </button>
+
+                    <button class="nav-item" data-page="wells" title="Live Wells (Image 1)">
+                        <span class="nav-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                        </span>
+                        <span class="nav-text">REAL-TIME DATA</span>
+                    </button>
+
+                    <button class="nav-item" data-page="digital-twin" title="Subsurface Analytics & Reservoir Sweep">
+                        <span class="nav-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"></path><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"></path></svg>
+                        </span>
+                        <span class="nav-text">ANALYTICS</span>
+                    </button>
+
+                    <button class="nav-item" data-page="scada" title="SCADA Wellhead Remote Controls & Chokes">
+                        <span class="nav-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                        </span>
+                        <span class="nav-text">WELL MANAGEMENT</span>
+                    </button>
+
+                    <button class="nav-item" data-page="alerts" title="Active SCADA Alerts">
+                        <span class="nav-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        </span>
+                        <span class="nav-text">ALERTS</span>
+                        <span class="nav-alert-badge" id="alertCountBadge">12 Active</span>
+                    </button>
+
+                    <button class="nav-item" data-page="reports" title="Comprehensive Well & Oil Reports">
+                        <span class="nav-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        </span>
+                        <span class="nav-text">REPORTS</span>
+                    </button>
+                </nav>
+
+                <!-- Sidebar live backend indicator -->
+                <div class="sidebar-status-pill">
+                    <span class="pulse-indicator" id="sidebarPulse"></span>
+                    <div class="status-texts">
+                        <strong id="backendStatusLabel">LIVE SCADA CONNECTED</strong>
+                        <small id="telemetryTickLabel">Auto-sync: 2.5s</small>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- =====================================
+                 MAIN PAGES WRAPPER
+            ====================================== -->
+            <main class="main-content">
+
+                <!-- =====================================
+                     PAGE 1: LIVE WELLS GRID (IMAGE 1)
+                     Activity based on working parameters
+                ====================================== -->
+                <section class="page" id="wells">
+                    <div class="wells-page-container">
+                        <!-- Heading matching Image 1 -->
+                        <div class="wells-header-row">
+                            <div class="wells-title-wrap">
+                                <h1 class="wells-main-title">WELLS</h1>
+                                <span class="wells-sub-counter" id="wellsCounterLabel">15 Monitored Units</span>
+                            </div>
+
+                            <!-- Filter & Search Controls -->
+                            <div class="wells-filter-row">
+                                <div class="filter-pills">
+                                    <button class="filter-pill active" data-filter="all">All Wells</button>
+                                    <button class="filter-pill" data-filter="production">Production</button>
+                                    <button class="filter-pill" data-filter="injection">Injection</button>
+                                    <button class="filter-pill" data-filter="attention">Attention</button>
+                                </div>
+                                <div class="wells-search-box">
+                                    <input type="text" id="wellSearchInput" placeholder="Filter well ID, status, flow...">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Grid container for Image 1 Cards -->
+                        <div class="image1-wells-grid" id="image1WellsGrid">
+                            <!-- Cards dynamically rendered from live backend data -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- =====================================
+                     PAGE 2: PLATFORM DELTA-9 OVERVIEW / SELECTED WELL DETAIL (IMAGE 2)
+                     Opens when any well is selected or via Dashboard
+                ====================================== -->
+                <section class="page active" id="dashboard">
+                    <div class="platform-overview-container">
+                        
+                        <!-- Top Header Row of Image 2 -->
+                        <div class="platform-header-row">
+                            <div class="platform-title-group">
+                                <h1 class="platform-title" id="platformOverviewTitle">PLATFORM DELTA-9 OVERVIEW</h1>
+                                <div class="platform-well-selector-wrap">
+                                    <span class="active-well-badge" id="selectedWellBadge">
+                                        <span class="badge-dot" id="selectedWellDot"></span>
+                                        <span id="selectedWellName">WELL 0002 ACTIVE</span>
+                                    </span>
+                                    <select id="wellSwitchSelect" class="well-switch-dropdown" title="Switch Selected Well">
+                                        <option value="WELL 0001">WELL 0001</option>
+                                        <option value="WELL 0002" selected>WELL 0002</option>
+                                        <option value="WELL 0003">WELL 0003</option>
+                                        <option value="WELL 0004">WELL 0004</option>
+                                        <option value="WELL 0005">WELL 0005 (Attention)</option>
+                                        <option value="WELL 0006">WELL 0006</option>
+                                        <option value="WELL 0007">WELL 0007</option>
+                                        <option value="WELL 0008">WELL 0008 (Injection)</option>
+                                        <option value="WELL 0009">WELL 0009 (Injection)</option>
+                                        <option value="WELL 0010">WELL 0010 (Injection)</option>
+                                        <option value="WELL 0011">WELL 0011</option>
+                                        <option value="WELL 0012">WELL 0012</option>
+                                        <option value="WELL 0013">WELL 0013</option>
+                                        <option value="WELL 0014">WELL 0014 (Attention)</option>
+                                        <option value="WELL 0015">WELL 0015</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="platform-actions">
+                                <button class="back-wells-btn" id="btnBackToWells" title="View Wells Grid (Image 1)">
+                                    ← Back to Wells Grid
+                                </button>
+                                <button class="petro-action-btn" id="btnOpenSCADAControls" title="Remote Choke & Pump Controls">
+                                    🎮 Well Controls
+                                </button>
+                                <button class="petro-action-btn" id="btnRunDiagnostics" title="Run AI Diagnostics">
+                                    ⚡ AI Diagnostics
+                                </button>
+                                <button class="petro-action-btn" id="btnViewWellReport" title="View Official Engineering Dossier Report">
+                                    📑 Well Report
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 3-Column Cybernetic Grid (Exact Layout of Image 2) -->
+                        <div class="image2-dashboard-grid">
+
+                            <!-- =========================================
+                                 LEFT COLUMN: Current Production & Active Wells
+                            ========================================== -->
+                            <div class="grid-col col-left">
+
+                                <!-- Card 1: Current Production -->
+                                <div class="petro-card card-production" id="cardCurrentProd">
+                                    <div class="card-header">
+                                        <span class="card-title" id="cardProdTitle">Current Production</span>
+                                        <div class="card-dots-wrapper">
+                                            <button class="card-dots" data-card="Current Production" title="Card Actions">•••</button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="stat-headline">
+                                            <span class="stat-number" id="detailProdStat">1.8K <small>bpd</small></span>
+                                            <span class="stat-badge green" id="detailProdBadge">+4.2%</span>
+                                        </div>
+                                        <span class="stat-subtitle" id="detailProdSubtitle">24h trend</span>
+
+                                        <!-- Wave Area SVG Chart -->
+                                        <div class="prod-wave-chart-wrap">
+                                            <svg viewBox="0 0 280 90" class="prod-wave-svg" id="prodWaveSvg" preserveAspectRatio="none">
+                                                <defs>
+                                                    <linearGradient id="cyanWaveGrad" x1="0" y1="0" x2="0" y2="1">
+                                                        <stop offset="0%" stop-color="#00f2fe" stop-opacity="0.45"/>
+                                                        <stop offset="100%" stop-color="#00f2fe" stop-opacity="0.0"/>
+                                                    </linearGradient>
+                                                </defs>
+                                                <path id="waveAreaPath" d="M 0,65 Q 40,30 80,55 T 160,35 T 220,15 T 280,45 L 280,90 L 0,90 Z" fill="url(#cyanWaveGrad)"/>
+                                                <path id="waveStrokePath" d="M 0,65 Q 40,30 80,55 T 160,35 T 220,15 T 280,45" fill="none" stroke="#00f2fe" stroke-width="2.2" stroke-linecap="round"/>
+                                                <circle id="waveMarkerDot" cx="220" cy="15" r="3.5" fill="#00f2fe" class="glowing-node"/>
+                                            </svg>
+                                            <div class="chart-time-axis">
+                                                <span>24h</span>
+                                                <span>08</span>
+                                                <span>19</span>
+                                                <span>24h</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card 2: Active Wells -->
+                                <div class="petro-card card-active-wells" id="cardActiveWells">
+                                    <div class="card-header">
+                                        <span class="card-title">Active Wells</span>
+                                        <div class="card-dots-wrapper">
+                                            <button class="card-dots" data-card="Active Wells" title="Card Actions">•••</button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="active-headline">
+                                            <strong class="online-ratio" id="activeWellsRatio">9/12 Online</strong>
+                                        </div>
+                                        <div class="wells-unit-list" id="activeSubUnitsList">
+                                            <!-- Dynamically filled with Wells 1 to 6 with status dots -->
+                                        </div>
+                                        <div class="unit-footer-status">
+                                            <small id="subStatusSummary">Status 2 Normal</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- =========================================
+                                 CENTER COLUMN: Rig Hologram & 24h Trend Chart
+                            ========================================== -->
+                            <div class="grid-col col-center">
+
+                                <!-- Isometric Oil Rig Platform Visualizer (Image 2 Centerpiece) -->
+                                <div class="petro-card card-rig-visualizer" id="cardRigVisualizer">
+                                    <div class="rig-viewport-container">
+                                        <!-- Central Rig Background Image + Hologram Canvas -->
+                                        <div class="rig-image-holder">
+                                            <img src="assets/holographic_rig.jpg" alt="Offshore Drilling Platform Digital Twin" class="rig-hologram-img" id="rigHologramImg">
+                                            <div class="rig-cyber-grid"></div>
+                                            <div class="rig-energy-overlay"></div>
+                                        </div>
+
+                                        <!-- OVERLAID TELEMETRY LABELS (Matching Image 2 exactly) -->
+                                        <!-- Rig Status -->
+                                        <div class="rig-callout callout-rig-status">
+                                            <span class="callout-lbl">Rig Status</span>
+                                            <strong class="callout-val status-green" id="rigStatusVal">ACTIVE</strong>
+                                        </div>
+
+                                        <!-- Depth -->
+                                        <div class="rig-callout callout-depth">
+                                            <span class="callout-lbl">Depth</span>
+                                            <strong class="callout-val" id="rigDepthVal">2,450m</strong>
+                                        </div>
+
+                                        <!-- Top Flow Rate -->
+                                        <div class="rig-callout callout-top-flow">
+                                            <span class="callout-lbl">Flow Rate</span>
+                                            <strong class="callout-val" id="rigTopFlowVal">1,850 bpd</strong>
+                                        </div>
+
+                                        <!-- Mid Status Indicator -->
+                                        <div class="rig-callout callout-mid-status">
+                                            <span class="callout-lbl">Status</span>
+                                            <strong class="callout-val status-green" id="rigMidStatusVal">ACTIVE</strong>
+                                        </div>
+
+                                        <!-- Bottom Left Flow Rate -->
+                                        <div class="rig-callout callout-bottom-flow">
+                                            <span class="callout-lbl">Flow Rate</span>
+                                            <strong class="callout-val" id="rigBottomFlowVal">1.85K bpd</strong>
+                                        </div>
+
+                                        <!-- Bottom Center Gas -->
+                                        <div class="rig-callout callout-gas">
+                                            <span class="callout-lbl">Gas</span>
+                                            <strong class="callout-val" id="rigGasVal">4.2M scf/d</strong>
+                                        </div>
+
+                                        <!-- Bottom Right Water -->
+                                        <div class="rig-callout callout-water">
+                                            <span class="callout-lbl">Water</span>
+                                            <strong class="callout-val" id="rigWaterVal">1.1K bpd</strong>
+                                        </div>
+
+                                        <!-- Cyan HUD Scan Line -->
+                                        <div class="hud-scan-sweep"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Card: 24h Production Trend (Barrels/Hour) -->
+                                <div class="petro-card card-trend-chart" id="cardTrendChart">
+                                    <div class="card-header">
+                                        <span class="card-title">24h Production Trend (Barrels/Hour)</span>
+                                        <div class="card-dots-wrapper">
+                                            <button class="card-dots" data-card="24h Production Trend" title="Card Actions">•••</button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body trend-chart-body">
+                                        <!-- Dual-line SVG Chart -->
+                                        <div class="dual-trend-svg-wrap">
+                                            <svg viewBox="0 0 460 120" class="dual-trend-svg" id="dualTrendSvg">
+                                                <!-- Y-Axis Grid Lines & Labels -->
+                                                <g class="chart-grid">
+                                                    <line x1="30" y1="10" x2="450" y2="10" stroke="#172a3d" stroke-dasharray="3,3"/>
+                                                    <text x="20" y="14" fill="#52708b" font-size="9" text-anchor="end">200</text>
+
+                                                    <line x1="30" y1="35" x2="450" y2="35" stroke="#172a3d" stroke-dasharray="3,3"/>
+                                                    <text x="20" y="39" fill="#52708b" font-size="9" text-anchor="end">150</text>
+
+                                                    <line x1="30" y1="60" x2="450" y2="60" stroke="#172a3d" stroke-dasharray="3,3"/>
+                                                    <text x="20" y="64" fill="#52708b" font-size="9" text-anchor="end">100</text>
+
+                                                    <line x1="30" y1="85" x2="450" y2="85" stroke="#172a3d" stroke-dasharray="3,3"/>
+                                                    <text x="20" y="89" fill="#52708b" font-size="9" text-anchor="end">50</text>
+
+                                                    <line x1="30" y1="105" x2="450" y2="105" stroke="#172a3d"/>
+                                                    <text x="20" y="108" fill="#52708b" font-size="9" text-anchor="end">0</text>
+                                                </g>
+
+                                                <!-- Cyan Trend Line -->
+                                                <path id="trendCyanPath" d="M 30,85 L 80,75 L 130,55 L 180,68 L 230,35 L 280,72 L 330,25 L 380,45 L 430,38" fill="none" stroke="#00f2fe" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+
+                                                <!-- Blue Trend Line -->
+                                                <path id="trendBluePath" d="M 30,95 L 80,82 L 130,88 L 180,50 L 230,78 L 280,40 L 330,68 L 380,82 L 430,60" fill="none" stroke="#0077ff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <!-- X-Axis Labels -->
+                                            <div class="trend-x-axis">
+                                                <span>Oct</span>
+                                                <span>06</span>
+                                                <span>08</span>
+                                                <span>12</span>
+                                                <span>15</span>
+                                                <span>18</span>
+                                                <span>12</span>
+                                                <span>20</span>
+                                                <span>24h</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- =========================================
+                                 RIGHT COLUMN: System Overview, Alerts, Power
+                            ========================================== -->
+                            <div class="grid-col col-right">
+
+                                <!-- Card 3: System Overview (3 Radial Gauges) -->
+                                <div class="petro-card card-system-overview" id="cardSystemOverview">
+                                    <div class="card-header">
+                                        <span class="card-title">System Overview</span>
+                                        <div class="card-dots-wrapper">
+                                            <button class="card-dots" data-card="System Overview" title="Card Actions">•••</button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body gauges-row">
+                                        
+                                        <!-- Gauge 1: Tank Level (84% High) -->
+                                        <div class="radial-gauge-item">
+                                            <div class="gauge-ring-box">
+                                                <svg viewBox="0 0 76 76" class="gauge-ring-svg">
+                                                    <circle cx="38" cy="38" r="30" class="gauge-track"/>
+                                                    <circle cx="38" cy="38" r="30" class="gauge-bar cyan" id="tankLevelCircle" stroke-dasharray="188.5" stroke-dashoffset="30"/>
+                                                </svg>
+                                                <span class="gauge-value-text" id="tankLevelVal">84%</span>
+                                            </div>
+                                            <div class="gauge-meta">
+                                                <strong class="gauge-label">Tank Level</strong>
+                                                <span class="gauge-sub red" id="tankLevelSub">High</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Gauge 2: Pressure (210 psi Optimal) -->
+                                        <div class="radial-gauge-item">
+                                            <div class="gauge-ring-box">
+                                                <svg viewBox="0 0 76 76" class="gauge-ring-svg">
+                                                    <circle cx="38" cy="38" r="30" class="gauge-track"/>
+                                                    <circle cx="38" cy="38" r="30" class="gauge-bar cyan" id="pressureCircle" stroke-dasharray="188.5" stroke-dashoffset="48"/>
+                                                </svg>
+                                                <span class="gauge-value-text text-sm" id="pressureVal">210<small>psi</small></span>
+                                            </div>
+                                            <div class="gauge-meta">
+                                                <strong class="gauge-label">Pressure</strong>
+                                                <span class="gauge-sub green" id="pressureSub">Optimal</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Gauge 3: Temperature (98°F Normal) -->
+                                        <div class="radial-gauge-item">
+                                            <div class="gauge-ring-box">
+                                                <svg viewBox="0 0 76 76" class="gauge-ring-svg">
+                                                    <circle cx="38" cy="38" r="30" class="gauge-track"/>
+                                                    <circle cx="38" cy="38" r="30" class="gauge-bar cyan" id="temperatureCircle" stroke-dasharray="188.5" stroke-dashoffset="58"/>
+                                                </svg>
+                                                <span class="gauge-value-text" id="temperatureVal">98°F</span>
+                                            </div>
+                                            <div class="gauge-meta">
+                                                <strong class="gauge-label">Temperature</strong>
+                                                <span class="gauge-sub green" id="temperatureSub">Normal</span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <!-- Card 4: Alerts Feed -->
+                                <div class="petro-card card-alerts-feed" id="cardAlertsFeed">
+                                    <div class="card-header">
+                                        <span class="card-title">Alerts Feed</span>
+                                        <div class="card-dots-wrapper">
+                                            <button class="card-dots" data-card="Alerts Feed" title="Card Actions">•••</button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="alerts-feed-list" id="detailAlertsList">
+                                            <!-- Dynamically filled with alerts matching Image 2 -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card 5: Power Consumption -->
+                                <div class="petro-card card-power-consumption" id="cardPowerConsumption">
+                                    <div class="card-header">
+                                        <span class="card-title">Power Consumption</span>
+                                        <div class="card-dots-wrapper">
+                                            <button class="card-dots" data-card="Power Consumption" title="Card Actions">•••</button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="power-headline">
+                                            <span class="power-stat" id="powerStatVal">1.2 MW</span>
+                                            <span class="power-change green" id="powerChangeVal">-2.1%</span>
+                                        </div>
+                                        <!-- Futuristic Equalizer Audio-Style Bars (Image 2 style) -->
+                                        <div class="power-equalizer-bars" id="powerEqualizerBars">
+                                            <!-- Injected dynamically -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- =====================================
+                     PAGE 3: PRODUCTION & INFLOW ANALYTICS
+                ====================================== -->
+                <section class="page" id="production">
+                    <div class="page-card">
+                        <div class="section-heading">
+                            <div>
+                                <span>RESERVOIR INFLOW & SURVEILLANCE</span>
+                                <h2>Field Production Analytics</h2>
+                            </div>
+                            <button class="primary-button" id="btnRefreshProdStats">↻ Refresh Field Inflow</button>
+                        </div>
+
+                        <!-- Production Metrics Row -->
+                        <div class="prod-kpi-grid">
+                            <div class="kpi-box">
+                                <span class="kpi-label">TOTAL FIELD PRODUCTION</span>
+                                <h3 class="kpi-val" id="kpiTotalRate">10,650 <small>bpd</small></h3>
+                                <p class="kpi-meta text-green">▲ 4.8% vs monthly baseline</p>
+                            </div>
+                            <div class="kpi-box">
+                                <span class="kpi-label">CUMULATIVE BARRELS TODAY</span>
+                                <h3 class="kpi-val" id="kpiCumToday">142,850 <small>bbl</small></h3>
+                                <p class="kpi-meta">Daily Target: 140,000 bbl</p>
+                            </div>
+                            <div class="kpi-box">
+                                <span class="kpi-label">FIELD WATER CUT</span>
+                                <h3 class="kpi-val" id="kpiWaterCut">16.4%</h3>
+                                <p class="kpi-meta text-teal">Well within de-emulsifier capacity</p>
+                            </div>
+                            <div class="kpi-box">
+                                <span class="kpi-label">GAS-TO-OIL RATIO (GOR)</span>
+                                <h3 class="kpi-val" id="kpiGor">435 <small>scf/bbl</small></h3>
+                                <p class="kpi-meta">Optimal Solution Gas Drive</p>
+                            </div>
+                        </div>
+
+                        <!-- Leaderboard Table -->
+                        <div class="oil-table-card">
+                            <h3 class="oil-card-title">Live Well Inflow & Choke Performance Matrix</h3>
+                            <div class="table-scroll-wrapper">
+                                <table class="petro-table" id="productionLeaderboardTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Well ID</th>
+                                            <th>Name</th>
+                                            <th>Choke</th>
+                                            <th>Flow Rate</th>
+                                            <th>Health Index</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="productionTableBody">
+                                        <!-- Dynamically populated -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- =====================================
+                     PAGE 4: SCADA WELLHEAD REMOTE CONTROLS
+                ====================================== -->
+                <section class="page" id="scada">
+                    <div class="page-card">
+                        <div class="section-heading">
+                            <div>
+                                <span>REMOTE WELLHEAD AUTOMATION & VALVES</span>
+                                <h2>SCADA Telemetry & Control Center</h2>
+                            </div>
+                            <div class="scada-header-well">
+                                <span>Active Control Target:</span>
+                                <strong id="scadaTargetWellLabel" class="text-cyan">WELL 0002</strong>
+                            </div>
+                        </div>
+
+                        <div class="scada-deck-grid">
+                            <!-- Left: Interactive Christmas Tree Schematic -->
+                            <div class="xmas-tree-card">
+                                <h3>Wellhead Christmas Tree Schematic</h3>
+                                <div class="tree-visual">
+                                    <div class="tree-node swab-valve" title="Swab Valve">
+                                        <span>Swab Valve:</span> <strong>CLOSED</strong>
+                                    </div>
+                                    <div class="tree-line vert"></div>
+                                    <div class="tree-node wing-valve" title="Wing Valve (Production Stream)">
+                                        <span>Wing Valve:</span> <strong class="text-green">OPEN (100%)</strong>
+                                    </div>
+                                    <div class="tree-line vert"></div>
+                                    <div class="tree-node choke-valve" title="Automated Choke Valve">
+                                        <span>Choke Valve:</span> <strong id="treeChokeDisplay" class="text-cyan">18/64 in</strong>
+                                    </div>
+                                    <div class="tree-line vert"></div>
+                                    <div class="tree-node master-valve" title="Lower Master Valve">
+                                        <span>Master Valve:</span> <strong class="text-green">OPEN (100%)</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right: Remote Operational Controls -->
+                            <div class="scada-controls-panel">
+                                <h3>Active Well Telemetry & Actuators</h3>
+
+                                <!-- Control 1: Choke Adjustment -->
+                                <div class="scada-control-group">
+                                    <div class="ctrl-header">
+                                        <label>Choke Size Adjustment (Bean Size in 64ths)</label>
+                                        <span class="ctrl-val text-cyan" id="chokeSliderVal">18/64"</span>
+                                    </div>
+                                    <input type="range" id="chokeSlider" min="10" max="36" value="18" step="1">
+                                    <div class="ctrl-footer">
+                                        <small>Range: 10/64" (Choked) to 36/64" (Open Inflow)</small>
+                                        <button class="scada-btn-apply" id="btnApplyChoke">Apply Choke Shift</button>
+                                    </div>
+                                </div>
+
+                                <!-- Control 2: Sucker Rod Pump (SRP) Speed -->
+                                <div class="scada-control-group">
+                                    <div class="ctrl-header">
+                                        <label>Sucker Rod Pump (SRP) Strokes Per Minute</label>
+                                        <span class="ctrl-val text-cyan" id="srpSliderVal">5.4 SPM</span>
+                                    </div>
+                                    <input type="range" id="srpSlider" min="2.0" max="8.0" value="5.4" step="0.2">
+                                    <div class="ctrl-footer">
+                                        <small>Recommended: 4.2 SPM for high viscosity heavy crude</small>
+                                        <button class="scada-btn-apply" id="btnApplySrp">Adjust SPM</button>
+                                    </div>
+                                </div>
+
+                                <!-- Control 3: Cyclic Steam Stimulation (CSS) Flush -->
+                                <div class="scada-control-group">
+                                    <div class="ctrl-header">
+                                        <label>Thermal EOR: Cyclic Steam Stimulation (CSS)</label>
+                                        <span class="badge-tag">HEAVY OIL FLUSH</span>
+                                    </div>
+                                    <p class="scada-desc">Inject high-pressure 350°F dry saturated steam (2,400 bbl) to reduce bottomhole oil viscosity from 158 cP down to 45 cP and eliminate rod float.</p>
+                                    <button class="scada-btn-steam" id="btnTriggerSteamSoak">🔥 Inject 2,400 bbl Steam Soak</button>
+                                </div>
+
+                                <!-- Control 4: Emergency Shut-In (ESD) -->
+                                <div class="scada-control-group danger-zone">
+                                    <div class="ctrl-header">
+                                        <label class="text-red">Surface Safety Valve (SSV) Emergency Shut-In</label>
+                                        <span class="badge-tag red">ESD INTERLOCK</span>
+                                    </div>
+                                    <button class="scada-btn-esd" id="btnEmergencyShutIn">🚨 Execute Emergency Well Shut-In</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- =====================================
+                     PAGE 5: DIGITAL TWIN ANALYTICS
+                ====================================== -->
+                <section class="page" id="digital-twin">
+                    <div class="page-card">
+                        <div class="section-heading">
+                            <div>
+                                <span>SUBSURFACE THERMAL MODEL & VISCOSITY DYNAMICS</span>
+                                <h2>Digital Twin Simulation</h2>
+                            </div>
+                        </div>
+
+                        <div class="twin-controls">
+                            <label>Simulation Day</label>
+                            <input type="range" id="daySlider" min="1" max="100" value="50">
+                            <strong>Day <span id="simulationDay">50</span></strong>
+                        </div>
+
+                        <div class="twin-grid">
+                            <div class="twin-card">
+                                <span>RESERVOIR TEMPERATURE</span>
+                                <strong id="twinTemperature">89°F</strong>
+                            </div>
+                            <div class="twin-card">
+                                <span>OIL VISCOSITY</span>
+                                <strong id="twinViscosity">1,200 cP</strong>
+                            </div>
+                            <div class="twin-card">
+                                <span>THERMAL SWEEP</span>
+                                <strong id="twinSweep">80%</strong>
+                            </div>
+                        </div>
+
+                        <div class="recommendation">
+                            <span>AI RECOMMENDATION</span>
+                            <h3 id="recommendationTitle">Maintain balanced steam injection.</h3>
+                            <p id="recommendationText">The thermal sweep front is expanding stably with optimal heavy oil mobility.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- =====================================
+                     PAGE 6: ALERTS
+                ====================================== -->
+                <section class="page" id="alerts">
+                    <div class="page-card">
+                        <div class="section-heading">
+                            <div>
+                                <span>SYSTEM EVENTS & SCADA ALARMS</span>
+                                <h2>All Alarms</h2>
+                            </div>
+                            <button class="primary-button" id="acknowledgeAll">Acknowledge All</button>
+                        </div>
+
+                        <div class="full-alert-list" id="fullAlertList">
+                            <!-- Injected dynamically -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- =====================================
+                     PAGE 7: REPORTS (COMPREHENSIVE WELL REPORTS)
+                ====================================== -->
+                <section class="page" id="reports">
+                    <div class="reports-page-container">
+                        <div class="reports-header-row">
+                            <div>
+                                <span class="section-tag">ENGINEERING DOSSIERS & SCADA ARCHIVES</span>
+                                <h1 class="reports-main-title">Field Well Reports Center</h1>
+                                <p class="reports-sub">Review complete diagnostic logs for all wells, inspect full engineering dossiers, and export official CSV & PDF reports.</p>
+                            </div>
+                            <div class="reports-batch-actions">
+                                <button type="button" class="primary-button" id="btnExportAllReports" title="Download Consolidated SCADA Report for all 15 wells">
+                                    📥 Download All Wells CSV
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Reports Filter Tabs -->
+                        <div class="reports-filter-bar">
+                            <div class="filter-pills" id="reportsFilterPills">
+                                <button class="filter-pill active" data-repfilter="all">All Wells (15)</button>
+                                <button class="filter-pill" data-repfilter="production">Production Wells</button>
+                                <button class="filter-pill" data-repfilter="injection">Injection Nodes</button>
+                                <button class="filter-pill" data-repfilter="attention">Critical Attention</button>
+                            </div>
+                            <div class="reports-search-box">
+                                <input type="text" id="reportSearchInput" placeholder="Search report by well ID, title, author...">
+                            </div>
+                        </div>
+
+                        <!-- Reports Grid Cards -->
+                        <div class="reports-cards-grid" id="reportsCardsGrid">
+                            <!-- Dynamically loaded with all 8 wells reports -->
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- =========================================
+         MODAL 1: FULL WELL REPORT VIEWER
+    ========================================== -->
+    <div class="report-modal-backdrop" id="reportModalBackdrop">
+        <div class="report-modal-content">
+            <!-- Modal Header -->
+            <div class="report-modal-header">
+                <div class="rep-header-left">
+                    <span class="report-official-seal">◈ PETRO-FLOW OFFICIAL DOSSIER</span>
+                    <h2 id="modalRepTitle">Daily Production & Inflow Performance Log</h2>
+                    <span class="rep-modal-sub" id="modalRepSub">WELL 0002 — Alpha Derrick • Platform Delta-9</span>
+                </div>
+                <div class="rep-header-actions">
+                    <button class="rep-act-btn btn-print" id="modalBtnPrint" title="Print or Save as PDF">🖨️ PDF / Print</button>
+                    <button class="rep-act-btn btn-csv" id="modalBtnCsv" title="Download Raw CSV">⬇️ Download CSV</button>
+                    <button class="rep-act-btn btn-close" id="modalBtnClose" title="Close">×</button>
+                </div>
+            </div>
+
+            <!-- Modal Body (Printable Dossier) -->
+            <div class="report-modal-body" id="reportPrintableArea">
+                <!-- Metadata Strip -->
+                <div class="report-meta-strip">
+                    <div><span>Dossier ID:</span> <strong id="modalRepId">REP-WELL-0002</strong></div>
+                    <div><span>Report Date:</span> <strong id="modalRepDate">Today, 18:30 UTC</strong></div>
+                    <div><span>Surveillance System:</span> <strong id="modalRepAuthor">PETRO-AI Engine v5.1</strong></div>
+                    <div><span>Health Index:</span> <strong id="modalRepHealth" class="text-green">0.84</strong></div>
+                </div>
+
+                <!-- Executive Summary -->
+                <div class="report-dossier-section">
+                    <h3>1. Executive Engineering Summary</h3>
+                    <p id="modalRepSummary">Operating stably within SRP nominal envelope. Casing gas vent pressure nominal at 210 psi. Production trend up by 4.2%.</p>
+                </div>
+
+                <!-- SCADA Parameter Matrix -->
+                <div class="report-dossier-section">
+                    <h3>2. Real-Time Telemetry & SCADA Parameters</h3>
+                    <div class="dossier-params-grid">
+                        <div class="d-param"><span>Flow Rate:</span> <strong id="modalParamFlow">1,850 bpd</strong></div>
+                        <div class="d-param"><span>Wellhead Pressure:</span> <strong id="modalParamPressure">210 psi</strong></div>
+                        <div class="d-param"><span>Casing Pressure:</span> <strong id="modalParamCasing">45 psi</strong></div>
+                        <div class="d-param"><span>Bottomhole Pressure:</span> <strong id="modalParamBhp">1,840 psi</strong></div>
+                        <div class="d-param"><span>Temperature:</span> <strong id="modalParamTemp">98°F</strong></div>
+                        <div class="d-param"><span>Oil Viscosity:</span> <strong id="modalParamVisc">142 cP</strong></div>
+                        <div class="d-param"><span>Water Cut:</span> <strong id="modalParamWaterCut">14.2%</strong></div>
+                        <div class="d-param"><span>Gas-to-Oil Ratio:</span> <strong id="modalParamGor">420 scf/bbl</strong></div>
+                        <div class="d-param"><span>Choke Setting:</span> <strong id="modalParamChoke">18/64 in</strong></div>
+                        <div class="d-param"><span>Cumulative Steam:</span> <strong id="modalParamSteam">14,800 bbl</strong></div>
+                    </div>
+                </div>
+
+                <!-- Anomalies & SCADA Alarms Log -->
+                <div class="report-dossier-section">
+                    <h3>3. Active Sensor Alarms & Threshold Events</h3>
+                    <div class="dossier-alerts-box" id="modalAlertsBox">
+                        <!-- Populated -->
+                    </div>
+                </div>
+
+                <!-- Recommendations -->
+                <div class="report-dossier-section">
+                    <h3>4. AI Recommended Engineering Interventions</h3>
+                    <ul class="dossier-actions-list" id="modalActionsList">
+                        <!-- Populated -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================
+         MODAL 2: WIDS (WELL INTEGRITY DIAGNOSTIC)
+    ========================================== -->
+    <div class="wids-modal-backdrop" id="widsModalBackdrop">
+        <div class="wids-modal-content">
+            <div class="wids-modal-header">
+                <div>
+                    <span class="wids-badge-pill">⊙ WIDS SURVEILLANCE</span>
+                    <h2>Well Integrity Diagnostic System</h2>
+                    <small>Continuous Barrier & Annular Casing Pressure Monitoring</small>
+                </div>
+                <button class="rep-act-btn btn-close" id="widsModalClose">×</button>
+            </div>
+            <div class="wids-modal-body" id="widsModalBody">
+                <div class="wids-grid-cards">
+                    <div class="wids-card">
+                        <span class="wids-label">ANNULUS 'A' PRESSURE</span>
+                        <strong class="wids-val text-green" id="widsAnnulusA">42 psi</strong>
+                        <small>Nominal threshold &lt; 100 psi</small>
+                    </div>
+                    <div class="wids-card">
+                        <span class="wids-label">ANNULUS 'B' PRESSURE</span>
+                        <strong class="wids-val text-green" id="widsAnnulusB">14 psi</strong>
+                        <small>Zero gas migration detected</small>
+                    </div>
+                    <div class="wids-card">
+                        <span class="wids-label">ACOUSTIC LIQUID LEVEL</span>
+                        <strong class="wids-val text-cyan" id="widsLiquidLevel">1,840m</strong>
+                        <small>Subsurface pump submergence optimal</small>
+                    </div>
+                    <div class="wids-card">
+                        <span class="wids-label">CATHODIC PROTECTION</span>
+                        <strong class="wids-val text-green" id="widsCathodic">-865 mV</strong>
+                        <small>NACE SP0169 Compliant</small>
+                    </div>
+                </div>
+                <div class="wids-status-row">
+                    <div class="wids-status-item">
+                        <span>Downhole Safety Valve (DHSV):</span>
+                        <strong class="text-green">TEST PASSED (Zero Leakage)</strong>
+                    </div>
+                    <div class="wids-status-item">
+                        <span>Surface Safety Valve (SSV):</span>
+                        <strong class="text-green">Actuator Speed: 1.8s (Nominal)</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================
+         MODAL 3: CARD ACTIONS DROPDOWN MODAL
+    ========================================== -->
+    <div class="card-action-modal" id="cardActionModal">
+        <div class="card-action-content">
+            <h4 id="cardActionTitle">Card Actions</h4>
+            <div class="card-action-buttons">
+                <button class="action-choice-btn" id="btnCardFullscreen">🔍 Expand / Fullscreen View</button>
+                <button class="action-choice-btn" id="btnCardExportCsv">📥 Export Card Data (CSV)</button>
+                <button class="action-choice-btn" id="btnCardCalibrate">↻ Calibrate Sensor Reading</button>
+                <button class="action-choice-btn" id="btnCardAlarmLimits">⚙️ Set Alarm Limits (High/Low)</button>
+                <button class="action-choice-btn btn-cancel" id="btnCardCancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================
+         FLOATING PETRO-AI BUTTON & LIVE CHATBOT
+    ========================================== -->
+    <button class="floating-ai" id="floatingAI" title="Live SCADA Chatbot">
+        <span class="ai-orb">✦</span>
+    </button>
+
+    <div class="chat-modal" id="chatModal">
+        <div class="chat-box">
+            <!-- Header -->
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="bot-avatar">✦</div>
+                    <div>
+                        <strong>PETRO-AI DIGITAL AGENT</strong>
+                        <small class="live-dot-wrap"><span class="bot-live-dot"></span> LIVE BACKEND CONNECTED</small>
+                    </div>
+                </div>
+                <button id="closeChat" class="close-chat" title="Close">×</button>
+            </div>
+
+            <!-- Quick Action Suggestion Chips -->
+            <div class="chat-quick-chips">
+                <button class="chip-btn" data-query="SOR kya hota hai aur iska formula kya hai?">📊 SOR Guide</button>
+                <button class="chip-btn" data-query="CSS Cyclic Steam Stimulation explain karo">🔥 CSS Process</button>
+                <button class="chip-btn" data-query="WELL 0005 me kya issue hai?">⚠️ Diagnose Well 0005</button>
+                <button class="chip-btn" data-query="WELL 0003 telemetry status">📊 Well 0003 Status</button>
+                <button class="chip-btn" data-query="Field ki total production kitni hai?">🛢️ Total Production</button>
+                <button class="chip-btn" data-query="Explain Rod-Float risk">⚙️ Rod-Float Risk</button>
+                <button class="chip-btn" data-query="How do I adjust choke in SCADA?">🎮 SCADA Choke Help</button>
+            </div>
+
+            <!-- Messages Log -->
+            <div class="chat-messages" id="chatMessages">
+                <div class="bot-message">
+                    <strong>PETRO-AI Connected:</strong><br>
+                    Main Platform Delta-9 aur sabhi 15 live wells (WELL 0001 se WELL 0015) ka real-time telemetry monitor kar raha hoon.<br><br>
+                    Aap kisi bhi well ka status, SOR, CSS thermal steam, rod-float issue, choke adjustment, ya reports Hindi ya English mein pooch sakte hain.
+                </div>
+            </div>
+
+            <!-- Input Form -->
+            <form class="chat-form" id="chatForm">
+                <input type="text" id="chatInput" placeholder="Ask PETRO-AI about any well, SOR, CSS, health index, alerts, choke..." autocomplete="off">
+                <button type="submit" id="chatSubmitBtn" title="Send">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- PRE-LOADED 15 WELLS DATA -->
+    <script src="wells_data.js"></script>
+    <!-- MAIN SCRIPT -->
+    <script src="script.js"></script>
+</body>
+</html>
