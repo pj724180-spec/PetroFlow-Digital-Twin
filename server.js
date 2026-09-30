@@ -1483,6 +1483,11 @@ app.post('/api/chat', async (req, res) => {
 // SPA catch-all
 app.use((req, res, next) => {
     if (req.method === 'GET' && !req.path.startsWith('/api')) {
+        // Don't send index.html for CSS, JS, images, fonts, etc.
+        if (path.extname(req.path)) {
+            return res.status(404).end();
+        }
+
         return res.sendFile(path.join(__dirname, 'index.html'));
     }
     next();
